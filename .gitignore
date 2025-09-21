@@ -1,0 +1,21 @@
+# Ignore CSV exports and related data files
+*.csv
+*.csv.zip
+*.csv.gz
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+
+# Logs
+*.log
+
+# VSCode
+.vscode/
