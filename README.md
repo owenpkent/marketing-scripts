@@ -52,3 +52,40 @@ python extract_mbox_contacts.py "C:\\Users\\me\\Downloads\\Sent-001.mbox" -o con
 
 - CSV files are ignored by git via `.gitignore`.
 - Tested on Windows with Python 3.11+.
+
+## youtube_to_google_sheets.py
+
+Exports daily YouTube channel, video, and traffic-source analytics to a Google Sheet.
+
+What it does:
+- Authenticates with OAuth to the YouTube Data, YouTube Analytics, and Google Sheets APIs.
+- Pulls channel summary metrics, top video performance, and traffic source breakdown for a target date (defaults to yesterday).
+- Appends the data to configurable worksheet ranges, enabling a rolling daily log.
+
+Prerequisites:
+- Enable the APIs in a Google Cloud project.
+- Download an OAuth client secret JSON (`client_secret.json`).
+- Install dependencies:
+  ```bash
+  pip install google-auth-oauthlib google-api-python-client
+  ```
+
+Usage:
+- First run prompts browser authorization and stores tokens in `token.json`.
+- Subsequent runs refresh automatically.
+- Schedule the command daily (Task Scheduler, cron, GitHub Actions, etc.).
+
+Example:
+```bash
+python youtube_to_google_sheets.py --spreadsheet-id <SHEET_ID>
+```
+
+Useful options:
+- `--date YYYY-MM-DD` to backfill a specific day.
+- `--skip-video-metrics` or `--skip-traffic-sources` to shorten runtime.
+- `--daily-range`, `--video-range`, `--traffic-range` to map to custom sheet tabs.
+
+Suggested worksheet columns:
+- `Daily`: Date, Retrieved At, Views, Minutes Watched, Avg View Duration (sec), Avg View Percentage, Likes, Comments, Shares, Subscribers Gained, Subscribers Lost, Estimated Revenue, Impressions, CTR (%), Total Subscribers, Total Views, Total Videos.
+- `VideoDaily`: Date, Retrieved At, Video ID, Title, Published At, Views, Minutes Watched, Avg View Duration (sec), Avg View Percentage, Likes, Comments, Shares, Subscribers Gained, Subscribers Lost, Impressions, CTR (%).
+- `TrafficSources`: Date, Retrieved At, Traffic Source, Views, Minutes Watched.
